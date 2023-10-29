@@ -1,0 +1,13 @@
+@keyframes color_change {
+	from { background-color: blue; }
+	to { background-color: red; }
+}
+
+.circle {
+  height: 100px;
+  width: 100px;
+  display: block;
+  border-radius: 50%;
+  position: absolute;
+  animation: color_change 5s 1;
+}
