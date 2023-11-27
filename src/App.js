@@ -7,19 +7,25 @@ const TIME_IN_MILISECONDS_TO_COUNTDOWN = 5 * 1000;
 function App() {
   const [elapsedTime, setElapsedTime] = useState(
     TIME_IN_MILISECONDS_TO_COUNTDOWN
-  ); //in ms
+  );
+  const [timeLimit, setTimeLimit] = useState(
+    TIME_IN_MILISECONDS_TO_COUNTDOWN
+  );
   const [score, setScore] = useState(0);
   const countDown = () => {
     setElapsedTime((time) => time - 10);
   };
   const onClick = () => {
+    let timeLimit;
     if (score > 29) {
-      setElapsedTime(1000);
+      timeLimit = TIME_IN_MILISECONDS_TO_COUNTDOWN / 5;
     } else if (score > 9) {
-      setElapsedTime(TIME_IN_MILISECONDS_TO_COUNTDOWN / 2);
+      timeLimit = TIME_IN_MILISECONDS_TO_COUNTDOWN / 2;
     } else {
-      setElapsedTime(TIME_IN_MILISECONDS_TO_COUNTDOWN);
+      timeLimit = TIME_IN_MILISECONDS_TO_COUNTDOWN;
     }
+    setTimeLimit(timeLimit);
+    setElapsedTime(timeLimit); // hard mode
     setScore((score) => score + 1);
   };
 
@@ -28,12 +34,16 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    alert("Click the circle. Keep clicking it.")
+  }, []);
+
   return (
     <div className="App">
       {elapsedTime > 0 ? (
         <>
-          <p className="timer"> {(elapsedTime / 1000).toFixed(2)}</p>{" "}
-          <Circle onClick={onClick} />
+          <p className="timer"> {(elapsedTime / 1000).toFixed(1)}</p>{" "}
+          <Circle onClick={onClick} decayTimeInMs={timeLimit}/>
         </>
       ) : (
         <>
